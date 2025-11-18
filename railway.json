@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "java -Dserver.port=$PORT -jar target/socialmedia-web-0.0.1-SNAPSHOT.jar",
+    "startCommand": "java -Xmx512m -Dserver.port=$PORT -jar target/*.jar",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
