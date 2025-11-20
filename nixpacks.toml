@@ -1,8 +1,0 @@
-[phases.setup]
-nixPkgs = ['maven', 'jdk17']
-
-[phases.build]
-cmds = ['mvn clean package -DskipTests']
-
-[start]
-cmd = 'java -Xmx512m -Dserver.port=$PORT -jar target/*.jar'

@@ -6,6 +6,7 @@ import java.util.List;
 import com.socialmediaweb.socialmediaweb.entities.Follow;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +34,13 @@ public class Users {
     private String college;
     private String semester;
     private String batch;
+    
+    // ENHANCED PROFILE FIELDS
+    private String phone;
+    private String location;
+    
+    @Column(columnDefinition = "TEXT")
+    private String bio;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
@@ -177,6 +185,31 @@ public class Users {
 
     public void setBatch(String batch) {
         this.batch = batch;
+    }
+    
+    // ENHANCED PROFILE GETTERS AND SETTERS
+    public String getPhone() {
+        return phone;
+    }
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
+    public String getLocation() {
+        return location;
+    }
+    
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    
+    public String getBio() {
+        return bio;
+    }
+    
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     // Updated toString() method for debugging/logging
