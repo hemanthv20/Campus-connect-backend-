@@ -20,7 +20,6 @@ import com.socialmediaweb.socialmediaweb.entities.Users;
 import com.socialmediaweb.socialmediaweb.service.AuthenticationService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT}, allowedHeaders = "Content-Type")
 public class UserController {
 	@Autowired
 	AuthenticationService service;

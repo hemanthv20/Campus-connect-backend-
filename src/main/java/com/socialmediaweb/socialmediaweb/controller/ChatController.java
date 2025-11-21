@@ -33,7 +33,6 @@ import com.socialmediaweb.socialmediaweb.service.ChatService;
 
 @RestController
 @RequestMapping("/api/chats")
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "Content-Type")
 public class ChatController {
     
     @Autowired

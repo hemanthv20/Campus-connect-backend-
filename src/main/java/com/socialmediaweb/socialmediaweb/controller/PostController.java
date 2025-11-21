@@ -22,9 +22,7 @@ import com.socialmediaweb.socialmediaweb.service.PostService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-// Allow requests from localhost:3000 with specified methods and headers
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT}, allowedHeaders = "Content-Type")
 public class PostController {
 	@Autowired
 	private PostService service;

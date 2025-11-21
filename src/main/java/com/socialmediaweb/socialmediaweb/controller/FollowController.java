@@ -29,7 +29,6 @@ import com.socialmediaweb.socialmediaweb.service.FollowService;
 
 @RestController
 @RequestMapping("/api/follow")
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowedHeaders = "Content-Type")
 public class FollowController {
     
     @Autowired

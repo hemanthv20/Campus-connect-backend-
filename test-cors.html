@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test - CampusConnect Backend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 CORS Test - CampusConnect Backend</h1>
+        
+        <p>Test CORS configuration for your backend API</p>
+        
+        <label for="apiUrl"><strong>Backend URL:</strong></label>
+        <input 
+            type="text" 
+            id="apiUrl" 
+            placeholder="https://your-backend.onrender.com"
+            value="https://your-backend.onrender.com"
+        >
+        
+        <label for="endpoint"><strong>Endpoint:</strong></label>
+        <input 
+            type="text" 
+            id="endpoint" 
+            placeholder="/feed"
+            value="/feed"
+        >
+        
+        <div style="margin-top: 20px;">
+            <button onclick="testCORS()">🚀 Test CORS</button>
+            <button onclick="testOptions()">🔍 Test OPTIONS (Preflight)</button>
+            <button onclick="clearResults()">🗑️ Clear</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testCORS() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const fullUrl = apiUrl + endpoint;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<div class="result info">Testing CORS... Please wait...</div>';
+            
+            try {
+                const response = await fetch(fullUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+                
+                const corsHeaders = {
+                    'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                    'Access-Control-Allow-Credentials': response.headers.get('Access-Control-Allow-Credentials'),
+                    'Access-Control-Allow-Methods': response.headers.get('Access-Control-Allow-Methods'),
+                    'Access-Control-Allow-Headers': response.headers.get('Access-Control-Allow-Headers')
+                };
+                
+                let result = `✅ CORS TEST SUCCESSFUL!\n\n`;
+                result += `Status: ${response.status} ${response.statusText}\n\n`;
+                result += `CORS Headers:\n`;
+                result += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                
+                for (const [key, value] of Object.entries(corsHeaders)) {
+                    if (value) {
+                        result += `${key}: ${value}\n`;
+                    }
+                }
+                
+                result += `\n✅ CORS is properly configured!`;
+                result += `\n✅ Your frontend can communicate with the backend.`;
+                
+                resultDiv.innerHTML = `<div class="result success">${result}</div>`;
+                
+            } catch (error) {
+                let errorMsg = `❌ CORS TEST FAILED!\n\n`;
+                errorMsg += `Error: ${error.message}\n\n`;
+                errorMsg += `Possible Issues:\n`;
+                errorMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                errorMsg += `1. Backend URL is incorrect\n`;
+                errorMsg += `2. Backend is not running\n`;
+                errorMsg += `3. CORS is not configured for this origin\n`;
+                errorMsg += `4. Network/firewall blocking the request\n\n`;
+                errorMsg += `Current Origin: ${window.location.origin}\n`;
+                errorMsg += `Target URL: ${fullUrl}\n\n`;
+                errorMsg += `💡 Make sure your origin is in the CORS allowed list!`;
+                
+                resultDiv.innerHTML = `<div class="result error">${errorMsg}</div>`;
+            }
+        }
+        
+        async function testOptions() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const fullUrl = apiUrl + endpoint;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<div class="result info">Testing OPTIONS preflight... Please wait...</div>';
+            
+            try {
+                const response = await fetch(fullUrl, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': window.location.origin,
+                        'Access-Control-Request-Method': 'POST',
+                        'Access-Control-Request-Headers': 'Content-Type'
+                    }
+                });
+                
+                let result = `✅ OPTIONS PREFLIGHT TEST SUCCESSFUL!\n\n`;
+                result += `Status: ${response.status} ${response.statusText}\n\n`;
+                result += `Preflight Response Headers:\n`;
+                result += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                
+                const headers = [
+                    'Access-Control-Allow-Origin',
+                    'Access-Control-Allow-Methods',
+                    'Access-Control-Allow-Headers',
+                    'Access-Control-Allow-Credentials',
+                    'Access-Control-Max-Age'
+                ];
+                
+                headers.forEach(header => {
+                    const value = response.headers.get(header);
+                    if (value) {
+                        result += `${header}: ${value}\n`;
+                    }
+                });
+                
+                result += `\n✅ Preflight check passed!`;
+                result += `\n✅ Complex requests (POST, PUT, DELETE) should work.`;
+                
+                resultDiv.innerHTML = `<div class="result success">${result}</div>`;
+                
+            } catch (error) {
+                let errorMsg = `❌ OPTIONS PREFLIGHT FAILED!\n\n`;
+                errorMsg += `Error: ${error.message}\n\n`;
+                errorMsg += `This means complex requests (POST, PUT, DELETE) will fail.\n`;
+                errorMsg += `Check your CORS configuration on the backend.`;
+                
+                resultDiv.innerHTML = `<div class="result error">${errorMsg}</div>`;
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('result').innerHTML = '';
+        }
+        
+        // Display current origin
+        window.onload = function() {
+            console.log('Current Origin:', window.location.origin);
+            console.log('This origin must be in your backend CORS allowed list');
+        };
+    </script>
+</body>
+</html>
