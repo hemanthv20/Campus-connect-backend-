@@ -85,8 +85,11 @@ public class ProfileController {
     public ResponseEntity<List<SkillDTO>> getAllSkills() {
         try {
             List<SkillDTO> skills = profileService.getAllSkills();
+            System.out.println("GET /api/profile/skills/all - Returning " + skills.size() + " skills");
             return ResponseEntity.ok(skills);
         } catch (Exception e) {
+            System.err.println("Error in getAllSkills: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -143,8 +146,11 @@ public class ProfileController {
     public ResponseEntity<List<InterestDTO>> getAllInterests() {
         try {
             List<InterestDTO> interests = profileService.getAllInterests();
+            System.out.println("GET /api/profile/interests/all - Returning " + interests.size() + " interests");
             return ResponseEntity.ok(interests);
         } catch (Exception e) {
+            System.err.println("Error in getAllInterests: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
