@@ -5,7 +5,7 @@ import java.util.Date;
 public class MessageDTO {
     private Long id;
     private Long chatId;
-    private int senderId;
+    private Long senderId;
     private String senderName;
     private String senderProfilePicture;
     private String content;
@@ -15,7 +15,7 @@ public class MessageDTO {
     public MessageDTO() {
     }
     
-    public MessageDTO(Long id, Long chatId, int senderId, String senderName, String senderProfilePicture,
+    public MessageDTO(Long id, Long chatId, Long senderId, String senderName, String senderProfilePicture,
                       String content, Date createdOn, boolean isRead) {
         this.id = id;
         this.chatId = chatId;
@@ -44,11 +44,11 @@ public class MessageDTO {
         this.chatId = chatId;
     }
     
-    public int getSenderId() {
+    public Long getSenderId() {
         return senderId;
     }
     
-    public void setSenderId(int senderId) {
+    public void setSenderId(Long senderId) {
         this.senderId = senderId;
     }
     

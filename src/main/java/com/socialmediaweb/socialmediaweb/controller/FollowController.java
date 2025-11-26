@@ -139,7 +139,7 @@ public class FollowController {
             for (Users user : following) {
                 UserDTO dto = UserMapper.toDTO(user);
                 // Add follow-back status
-                dto.setFollower(followService.isFollowing(user.getUser_id(), userId));
+                dto.setFollower(followService.isFollowing(user.getUserId(), userId));
                 dto.setFollowing(true); // Current user follows this user
                 dto.setMutualFollow(dto.isFollower() && dto.isFollowing());
                 followingDTOs.add(dto);

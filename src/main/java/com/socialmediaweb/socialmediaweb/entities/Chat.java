@@ -102,8 +102,8 @@ public class Chat {
 
     @Override
     public String toString() {
-        return "Chat [id=" + id + ", user1_id=" + (user1 != null ? user1.getUser_id() : null) 
-                + ", user2_id=" + (user2 != null ? user2.getUser_id() : null) 
+        return "Chat [id=" + id + ", user1_id=" + (user1 != null ? user1.getUserId() : null) 
+                + ", user2_id=" + (user2 != null ? user2.getUserId() : null) 
                 + ", createdOn=" + createdOn + ", lastMessageAt=" + lastMessageAt + "]";
     }
 }

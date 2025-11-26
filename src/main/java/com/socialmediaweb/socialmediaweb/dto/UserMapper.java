@@ -11,11 +11,11 @@ public class UserMapper {
         }
         
         UserDTO dto = new UserDTO();
-        dto.setUserId(user.getUser_id());
+        dto.setUserId(user.getUserId());
         dto.setUsername(user.getUsername());
-        dto.setFirstName(user.getFirst_name());
-        dto.setLastName(user.getLast_name());
-        dto.setProfilePicture(user.getProfile_picture());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setProfilePicture(user.getProfilePicture());
         dto.setCollege(user.getCollege());
         
         return dto;

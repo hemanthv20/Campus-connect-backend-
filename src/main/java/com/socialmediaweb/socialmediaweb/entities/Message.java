@@ -116,8 +116,8 @@ public class Message {
     @Override
     public String toString() {
         return "Message [id=" + id + ", chat_id=" + (chat != null ? chat.getId() : null) 
-                + ", sender_id=" + (sender != null ? sender.getUser_id() : null) 
-                + ", receiver_id=" + (receiver != null ? receiver.getUser_id() : null) 
+                + ", sender_id=" + (sender != null ? sender.getUserId() : null) 
+                + ", receiver_id=" + (receiver != null ? receiver.getUserId() : null) 
                 + ", content=" + content + ", createdOn=" + createdOn + ", isRead=" + isRead + "]";
     }
 }

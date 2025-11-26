@@ -9,7 +9,7 @@ public class ChatMapper {
     // Convert Chat to ChatDTO
     public static ChatDTO toChatDTO(Chat chat, Users currentUser, String lastMessageContent, long unreadCount) {
         // Determine the other user in the chat
-        Users otherUser = chat.getUser1().getUser_id() == currentUser.getUser_id() 
+        Users otherUser = chat.getUser1().getUserId().equals(currentUser.getUserId()) 
                 ? chat.getUser2() 
                 : chat.getUser1();
         
@@ -35,9 +35,9 @@ public class ChatMapper {
         return new MessageDTO(
             message.getId(),
             message.getChat().getId(),
-            message.getSender().getUser_id(),
-            message.getSender().getFirst_name() + " " + message.getSender().getLast_name(),
-            message.getSender().getProfile_picture(),
+            message.getSender().getUserId(),
+            message.getSender().getFirstName() + " " + message.getSender().getLastName(),
+            message.getSender().getProfilePicture(),
             message.getContent(),
             message.getCreatedOn(),
             message.isRead()

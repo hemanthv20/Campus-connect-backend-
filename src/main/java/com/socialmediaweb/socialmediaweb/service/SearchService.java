@@ -33,12 +33,12 @@ public class SearchService {
     @Autowired
     private InterestRepository interestRepository;
     
-    public SearchResponseDTO advancedSearch(SearchCriteriaDTO criteria, int currentUserId) {
+    public SearchResponseDTO advancedSearch(SearchCriteriaDTO criteria, Long currentUserId) {
         List<Users> allUsers = usersRepository.findAll();
         List<SearchResultDTO> results = new ArrayList<>();
         
         for (Users user : allUsers) {
-            if (user.getUser_id() == currentUserId) continue; // Skip current user
+            if (user.getUserId().equals(currentUserId)) continue; // Skip current user
             
             double matchScore = calculateMatchScore(user, criteria, currentUserId);
             
@@ -84,7 +84,7 @@ public class SearchService {
         // Name/Username match (30 points)
         if (criteria.getQuery() != null && !criteria.getQuery().isEmpty()) {
             String query = criteria.getQuery().toLowerCase();
-            String fullName = (user.getFirst_name() + " " + user.getLast_name()).toLowerCase();
+            String fullName = (user.getFirstName() + " " + user.getLastName()).toLowerCase();
             String username = user.getUsername().toLowerCase();
             
             if (fullName.contains(query) || username.contains(query)) {
@@ -97,7 +97,7 @@ public class SearchService {
         
         // Skills match (25 points)
         if (criteria.getSkills() != null && !criteria.getSkills().isEmpty()) {
-            List<UserSkill> userSkills = userSkillRepository.findByUserUserId(user.getUser_id());
+            List<UserSkill> userSkills = userSkillRepository.findByUserUserId(user.getUserId());
             Set<String> userSkillNames = userSkills.stream()
                 .map(us -> us.getSkill().getName().toLowerCase())
                 .collect(Collectors.toSet());
@@ -114,7 +114,7 @@ public class SearchService {
         
         // Interests match (20 points)
         if (criteria.getInterests() != null && !criteria.getInterests().isEmpty()) {
-            List<UserInterest> userInterests = userInterestRepository.findByUserUserId(user.getUser_id());
+            List<UserInterest> userInterests = userInterestRepository.findByUserUserId(user.getUserId());
             Set<String> userInterestNames = userInterests.stream()
                 .map(ui -> ui.getInterest().getName().toLowerCase())
                 .collect(Collectors.toSet());
@@ -154,28 +154,28 @@ public class SearchService {
         return score;
     }
     
-    private SearchResultDTO convertToSearchResult(Users user, double matchScore, int currentUserId) {
+    private SearchResultDTO convertToSearchResult(Users user, double matchScore, Long currentUserId) {
         SearchResultDTO result = new SearchResultDTO();
-        result.setUserId(user.getUser_id());
+        result.setUserId(user.getUserId());
         result.setUsername(user.getUsername());
-        result.setFirstName(user.getFirst_name());
-        result.setLastName(user.getLast_name());
-        result.setProfilePicture(user.getProfile_picture());
+        result.setFirstName(user.getFirstName());
+        result.setLastName(user.getLastName());
+        result.setProfilePicture(user.getProfilePicture());
         result.setCollege(user.getCollege());
         result.setSemester(user.getSemester());
         result.setBatch(user.getBatch());
-        result.setBio(user.getBio());
+        // Note: getBio() method doesn't exist in Users entity, removing this line
         result.setMatchScore(matchScore);
         
         // Get user skills
-        List<UserSkill> userSkills = userSkillRepository.findByUserUserId(user.getUser_id());
+        List<UserSkill> userSkills = userSkillRepository.findByUserUserId(user.getUserId());
         result.setSkills(userSkills.stream()
             .map(us -> us.getSkill().getName())
             .limit(5)
             .collect(Collectors.toList()));
         
         // Get user interests
-        List<UserInterest> userInterests = userInterestRepository.findByUserUserId(user.getUser_id());
+        List<UserInterest> userInterests = userInterestRepository.findByUserUserId(user.getUserId());
         result.setInterests(userInterests.stream()
             .map(ui -> ui.getInterest().getName())
             .limit(5)
@@ -213,7 +213,7 @@ public class SearchService {
     }
     
     // Quick search for autocomplete
-    public List<SearchResultDTO> quickSearch(String query, int currentUserId) {
+    public List<SearchResultDTO> quickSearch(String query, Long currentUserId) {
         if (query == null || query.length() < 2) {
             return new ArrayList<>();
         }
@@ -222,9 +222,9 @@ public class SearchService {
         String lowerQuery = query.toLowerCase();
         
         return users.stream()
-            .filter(user -> user.getUser_id() != currentUserId)
+            .filter(user -> !user.getUserId().equals(currentUserId))
             .filter(user -> {
-                String fullName = (user.getFirst_name() + " " + user.getLast_name()).toLowerCase();
+                String fullName = (user.getFirstName() + " " + user.getLastName()).toLowerCase();
                 return fullName.contains(lowerQuery) || user.getUsername().toLowerCase().contains(lowerQuery);
             })
             .limit(10)
@@ -233,7 +233,7 @@ public class SearchService {
     }
     
     // Get recommendations based on user profile
-    public List<SearchResultDTO> getRecommendations(int userId) {
+    public List<SearchResultDTO> getRecommendations(Long userId) {
         Users currentUser = usersRepository.findById(userId).orElse(null);
         if (currentUser == null) return new ArrayList<>();
         
@@ -254,7 +254,7 @@ public class SearchService {
         List<SearchResultDTO> recommendations = new ArrayList<>();
         
         for (Users user : allUsers) {
-            if (user.getUser_id() == userId) continue;
+            if (user.getUserId().equals(userId)) continue;
             if (followRepository.existsByFollowerAndFollowing(currentUser, user)) continue;
             
             double similarityScore = calculateSimilarityScore(user, userSkillNames, userInterestNames, currentUser);
@@ -274,7 +274,7 @@ public class SearchService {
         double score = 0.0;
         
         // Skills similarity (40 points)
-        List<UserSkill> targetSkills = userSkillRepository.findByUserUserId(user.getUser_id());
+        List<UserSkill> targetSkills = userSkillRepository.findByUserUserId(user.getUserId());
         long commonSkills = targetSkills.stream()
             .filter(us -> userSkills.contains(us.getSkill().getName()))
             .count();
@@ -284,7 +284,7 @@ public class SearchService {
         }
         
         // Interests similarity (30 points)
-        List<UserInterest> targetInterests = userInterestRepository.findByUserUserId(user.getUser_id());
+        List<UserInterest> targetInterests = userInterestRepository.findByUserUserId(user.getUserId());
         long commonInterests = targetInterests.stream()
             .filter(ui -> userInterests.contains(ui.getInterest().getName()))
             .count();

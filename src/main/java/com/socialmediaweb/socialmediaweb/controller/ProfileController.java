@@ -38,7 +38,7 @@ public class ProfileController {
             @PathVariable int userId, 
             @RequestBody UserSkillDTO skillDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             UserSkillDTO created = profileService.addUserSkill(userId, skillDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -111,7 +111,7 @@ public class ProfileController {
             @PathVariable int userId,
             @RequestBody UserInterestDTO interestDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             UserInterestDTO created = profileService.addUserInterest(userId, interestDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -182,7 +182,7 @@ public class ProfileController {
             @PathVariable int userId,
             @RequestBody GoalDTO goalDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             GoalDTO created = profileService.createGoal(userId, goalDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -230,7 +230,7 @@ public class ProfileController {
             @PathVariable int userId,
             @RequestBody ProjectDTO projectDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             ProjectDTO created = profileService.createProject(userId, projectDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -278,7 +278,7 @@ public class ProfileController {
             @PathVariable int userId,
             @RequestBody ExperienceDTO experienceDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             ExperienceDTO created = profileService.createExperience(userId, experienceDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -314,7 +314,7 @@ public class ProfileController {
             @PathVariable int userId,
             @RequestBody EducationDTO educationDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             EducationDTO created = profileService.createEducation(userId, educationDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -350,7 +350,7 @@ public class ProfileController {
             @PathVariable int userId,
             @RequestBody SocialLinkDTO socialLinkDTO) {
         try {
-            Users user = usersRepository.findById(userId)
+            Users user = usersRepository.findById((long) userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             SocialLinkDTO created = profileService.addSocialLink(userId, socialLinkDTO, user);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
