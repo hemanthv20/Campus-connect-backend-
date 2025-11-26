@@ -410,7 +410,7 @@ public class ProfileService {
     private GoalDTO convertToGoalDTO(Goal goal) {
         GoalDTO dto = new GoalDTO();
         dto.setId(goal.getId());
-        dto.setUserId(goal.getUser().getUserId());
+        dto.setUserId(goal.getUser().getUserId().intValue());
         dto.setTitle(goal.getTitle());
         dto.setDescription(goal.getDescription());
         dto.setCategory(goal.getCategory());
@@ -428,7 +428,7 @@ public class ProfileService {
     private ProjectDTO convertToProjectDTO(Project project) {
         ProjectDTO dto = new ProjectDTO();
         dto.setId(project.getId());
-        dto.setUserId(project.getUser().getUserId());
+        dto.setUserId(project.getUser().getUserId().intValue());
         dto.setTitle(project.getTitle());
         dto.setDescription(project.getDescription());
         dto.setTechnologies(convertJsonToList(project.getTechnologies()));

@@ -36,18 +36,18 @@ public class AuthenticationService {
 
     // Get user by ID
     public Users getUsersById(int id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById((long) id).orElse(null);
     }
 
     // Delete
     public String deleteUser(int id) {
-        repository.deleteById(id);
+        repository.deleteById((long) id);
         return "User deleted.";
     }
 
     // Authentication with password hashing
     public Users authenticateUser(String username, String password) {
-        Users user = repository.findByUsername(username);
+        Users user = repository.findByUsername(username).orElse(null);
         if (user != null && passwordEncoder.matches(password, user.getPasswordHash())) {
             return user;
         }
@@ -96,7 +96,7 @@ public class AuthenticationService {
     }
 
     public Users findByUsername(String username) {
-        return repository.findByUsername(username);
+        return repository.findByUsername(username).orElse(null);
     }
 
     public List<String> findUsernamesBySearchTerm(String searchTerm) {

@@ -44,4 +44,20 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
      */
     @Query("SELECT u FROM Users u WHERE LOWER(u.email) = LOWER(:email)")
     Optional<Users> findByEmailIgnoreCase(@Param("email") String email);
+    
+    /**
+     * Check if username exists (exact match)
+     */
+    boolean existsByUsername(String username);
+    
+    /**
+     * Check if email exists (exact match)
+     */
+    boolean existsByEmail(String email);
+    
+    /**
+     * Find usernames containing search term (case-insensitive)
+     */
+    @Query("SELECT u.username FROM Users u WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    java.util.List<String> findByUsernameContainingIgnoreCase(@Param("searchTerm") String searchTerm);
 }
