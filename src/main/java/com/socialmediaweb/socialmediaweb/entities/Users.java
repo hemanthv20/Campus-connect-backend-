@@ -1,223 +1,192 @@
 package com.socialmediaweb.socialmediaweb.entities;
 
-import java.util.Date;
-import java.util.List;
-
-import com.socialmediaweb.socialmediaweb.entities.Follow;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "users")
 public class Users {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    @Column(name = "user_id")
+    private Long userId;
     
+    @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;
-    private String first_name;
-    private String last_name;
-    private String email;
-    private String password;
-    private String gender;
-    private String profile_picture;
-    private Date created_on;
-    private boolean isAdmin;
     
-    // NEW FIELDS FOR COLLEGE ASSOCIATION
+    @Column(name = "password", nullable = false, length = 255)
+    private String passwordHash;
+    
+    @Column(name = "first_name", length = 50)
+    private String firstName;
+    
+    @Column(name = "last_name", length = 50)
+    private String lastName;
+    
+    @Column(name = "email", unique = true, length = 100)
+    private String email;
+    
+    @Column(name = "profile_picture", columnDefinition = "TEXT")
+    private String profilePicture;
+    
+    @Column(name = "college", length = 100)
     private String college;
+    
+    @Column(name = "semester", length = 50)
     private String semester;
+    
+    @Column(name = "batch", length = 50)
     private String batch;
     
-    // ENHANCED PROFILE FIELDS
-    private String phone;
-    private String location;
+    @Column(name = "admin")
+    private Boolean admin = false;
     
-    @Column(columnDefinition = "TEXT")
-    private String bio;
+    @Column(name = "created_on")
+    private LocalDateTime createdAt;
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
+    @Column(name = "updated_on")
+    private LocalDateTime updatedAt;
     
-    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Follow> following;
-    
-    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Follow> followers;
-
     // Default constructor
-    public Users() {
-        // By default user is not an Admin
-        this.isAdmin = false;
-    }
-
-    // Parameterized constructor (updated with new fields)
-    public Users(int user_id, String username, String first_name, String last_name, String email, String password,
-            String gender, String profile_picture, Date created_on, boolean isAdmin, String college, String semester, String batch) {
-        super();
-        this.user_id = user_id;
+    public Users() {}
+    
+    // Constructor with essential fields
+    public Users(String username, String passwordHash, String email) {
         this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.passwordHash = passwordHash;
         this.email = email;
-        this.password = password;
-        this.gender = gender;
-        this.profile_picture = profile_picture;
-        this.created_on = created_on;
-        this.isAdmin = isAdmin;
-        this.college = college;
-        this.semester = semester;
-        this.batch = batch;
+        this.admin = false;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
-
-    // Convenience constructor for testing purposes
-    public Users(String testUser, String mail, String password) {
-        // Implementation needed
+    
+    // Getters and setters
+    public Long getUserId() {
+        return userId;
     }
-
-    // Existing Getters and setters
-    public int getUser_id() {
-        return user_id;
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public String getFirst_name() {
-        return first_name;
+    
+    public String getPasswordHash() {
+        return passwordHash;
     }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
-
-    public String getLast_name() {
-        return last_name;
+    
+    public String getFirstName() {
+        return firstName;
     }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getPassword() {
-        return password;
+    
+    public String getProfilePicture() {
+        return profilePicture;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getProfile_picture() {
-        return profile_picture;
-    }
-
-    public void setProfile_picture(String profile_picture) {
-        this.profile_picture = profile_picture;
-    }
-
-    public Date getCreated_on() {
-        return created_on;
-    }
-
-    public void setCreated_on(Date created_on) {
-        this.created_on = created_on;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    // NEW GETTERS AND SETTERS FOR COLLEGE FIELDS
+    
     public String getCollege() {
         return college;
     }
-
+    
     public void setCollege(String college) {
         this.college = college;
     }
-
+    
     public String getSemester() {
         return semester;
     }
-
+    
     public void setSemester(String semester) {
         this.semester = semester;
     }
-
+    
     public String getBatch() {
         return batch;
     }
-
+    
     public void setBatch(String batch) {
         this.batch = batch;
     }
     
-    // ENHANCED PROFILE GETTERS AND SETTERS
-    public String getPhone() {
-        return phone;
+    public Boolean getAdmin() {
+        return admin;
     }
     
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
     
-    public String getLocation() {
-        return location;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
     
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
     
-    public String getBio() {
-        return bio;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
     
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
-
-    // Updated toString() method for debugging/logging
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+    
     @Override
     public String toString() {
-        return "Users [user_id=" + user_id + ", username=" + username + ", first_name=" + first_name + ", last_name="
-                + last_name + ", email=" + email + ", password=" + password + ", gender=" + gender
-                + ", profile_picture=" + profile_picture + ", created_on=" + created_on + ", isAdmin=" + isAdmin 
-                + ", college=" + college + ", semester=" + semester + ", batch=" + batch + "]";
+        return "Users{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", college='" + college + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

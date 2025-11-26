@@ -46,6 +46,7 @@ com\socialmediaweb\socialmediaweb\entities\Education.class
 com\socialmediaweb\socialmediaweb\dto\UserSkillDTO.class
 com\socialmediaweb\socialmediaweb\repository\UserProfileExtensionRepository.class
 com\socialmediaweb\socialmediaweb\entities\SocialLink.class
+com\socialmediaweb\socialmediaweb\config\CorsConfig$1.class
 com\socialmediaweb\socialmediaweb\dto\MessageDTO.class
 com\socialmediaweb\socialmediaweb\entities\Message.class
 com\socialmediaweb\socialmediaweb\entities\Follow.class
