@@ -79,8 +79,8 @@ public class Follow {
 
     @Override
     public String toString() {
-        return "Follow [id=" + id + ", follower_id=" + (follower != null ? follower.getUser_id() : null) 
-                + ", following_id=" + (following != null ? following.getUser_id() : null) 
+        return "Follow [id=" + id + ", follower_id=" + (follower != null ? follower.getUserId() : null) 
+                + ", following_id=" + (following != null ? following.getUserId() : null) 
                 + ", created_on=" + created_on + "]";
     }
 }

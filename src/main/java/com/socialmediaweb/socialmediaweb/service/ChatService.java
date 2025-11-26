@@ -92,9 +92,9 @@ public class ChatService {
         
         // Determine receiver
         Users receiver;
-        if (chat.getUser1().getUser_id() == senderId) {
+        if (chat.getUser1().getUserId().intValue() == senderId) {
             receiver = chat.getUser2();
-        } else if (chat.getUser2().getUser_id() == senderId) {
+        } else if (chat.getUser2().getUserId().intValue() == senderId) {
             receiver = chat.getUser1();
         } else {
             throw new IllegalArgumentException("Sender is not a participant in this chat");
@@ -139,7 +139,7 @@ public class ChatService {
                 .orElseThrow(() -> new IllegalArgumentException("Message not found"));
         
         // Only sender can delete their message
-        if (message.getSender().getUser_id() != userId) {
+        if (message.getSender().getUserId().intValue() != userId) {
             throw new IllegalArgumentException("You can only delete your own messages");
         }
         

@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.socialmediaweb.socialmediaweb.entities.Users;
-import com.socialmediaweb.socialmediaweb.repository.UserRepository;
+import com.socialmediaweb.socialmediaweb.repository.UsersRepository;
 
 @Service
 public class AuthenticationService {
 
     @Autowired
-    private UserRepository repository;
+    private UsersRepository repository;
     
     // Password encoder for secure password hashing
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

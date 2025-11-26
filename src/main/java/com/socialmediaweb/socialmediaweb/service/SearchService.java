@@ -77,7 +77,7 @@ public class SearchService {
         return response;
     }
     
-    private double calculateMatchScore(Users user, SearchCriteriaDTO criteria, int currentUserId) {
+    private double calculateMatchScore(Users user, SearchCriteriaDTO criteria, Long currentUserId) {
         double score = 0.0;
         StringBuilder matchReason = new StringBuilder();
         

@@ -146,7 +146,7 @@ public class FollowService {
         List<Users> mutualFollowers = new ArrayList<>();
         
         for (Users follower : followers) {
-            if (isFollowing(userId, follower.getUser_id())) {
+            if (isFollowing(userId, follower.getUserId().intValue())) {
                 mutualFollowers.add(follower);
             }
         }

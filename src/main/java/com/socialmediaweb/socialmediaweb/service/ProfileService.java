@@ -50,7 +50,7 @@ public class ProfileService {
     // ==================== SKILLS ====================
     
     public List<UserSkillDTO> getUserSkills(int userId) {
-        List<UserSkill> userSkills = userSkillRepository.findByUserIdOrderByDisplayOrder(userId);
+        List<UserSkill> userSkills = userSkillRepository.findByUserIdOrderByDisplayOrder((long) userId);
         return userSkills.stream().map(this::convertToUserSkillDTO).collect(Collectors.toList());
     }
     
@@ -100,7 +100,7 @@ public class ProfileService {
     
     @Transactional
     public void deleteUserSkill(int userId, Long skillId) {
-        userSkillRepository.deleteByUserUserIdAndSkillId(userId, skillId);
+        userSkillRepository.deleteByUserUserIdAndSkillId((long) userId, skillId);
     }
     
     public List<SkillDTO> searchSkills(String query) {
@@ -116,7 +116,7 @@ public class ProfileService {
     // ==================== INTERESTS ====================
     
     public List<UserInterestDTO> getUserInterests(int userId) {
-        List<UserInterest> userInterests = userInterestRepository.findByUserIdOrderByDisplayOrder(userId);
+        List<UserInterest> userInterests = userInterestRepository.findByUserIdOrderByDisplayOrder((long) userId);
         return userInterests.stream().map(this::convertToUserInterestDTO).collect(Collectors.toList());
     }
     
@@ -139,7 +139,7 @@ public class ProfileService {
     
     @Transactional
     public void deleteUserInterest(int userId, Long interestId) {
-        userInterestRepository.deleteByUserUserIdAndInterestId(userId, interestId);
+        userInterestRepository.deleteByUserUserIdAndInterestId((long) userId, interestId);
     }
     
     public List<InterestDTO> searchInterests(String query) {
@@ -410,7 +410,7 @@ public class ProfileService {
     private GoalDTO convertToGoalDTO(Goal goal) {
         GoalDTO dto = new GoalDTO();
         dto.setId(goal.getId());
-        dto.setUserId(goal.getUser().getUser_id());
+        dto.setUserId(goal.getUser().getUserId());
         dto.setTitle(goal.getTitle());
         dto.setDescription(goal.getDescription());
         dto.setCategory(goal.getCategory());
@@ -428,7 +428,7 @@ public class ProfileService {
     private ProjectDTO convertToProjectDTO(Project project) {
         ProjectDTO dto = new ProjectDTO();
         dto.setId(project.getId());
-        dto.setUserId(project.getUser().getUser_id());
+        dto.setUserId(project.getUser().getUserId());
         dto.setTitle(project.getTitle());
         dto.setDescription(project.getDescription());
         dto.setTechnologies(convertJsonToList(project.getTechnologies()));
