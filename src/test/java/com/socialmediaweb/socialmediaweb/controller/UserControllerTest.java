@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,19 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.socialmediaweb.socialmediaweb.entities.Users;
-import com.socialmediaweb.socialmediaweb.repository.UserRepository;
+import com.socialmediaweb.socialmediaweb.repository.UsersRepository;
 import com.socialmediaweb.socialmediaweb.service.AuthenticationService;
 
 public class UserControllerTest {
 
     private AuthenticationService authService;
     private UserController userController;
-    private UserRepository userRepository;
+    private UsersRepository userRepository;
 
     @BeforeEach
     public void setup() {
         authService = mock(AuthenticationService.class);
-        userRepository = mock(UserRepository.class);
+        userRepository = mock(UsersRepository.class);
         userController = new UserController(authService);
     }
 
@@ -46,28 +47,28 @@ public class UserControllerTest {
     @Test
     public void testUserGetterSetter() {
         Users user = new Users();
-        user.setUser_id(1);
+        user.setUserId(1L);
         user.setUsername("testUser");
-        user.setFirst_name("John");
-        user.setLast_name("Doe");
+        user.setFirstName("John");
+        user.setLastName("Doe");
         user.setEmail("test@example.com");
-        user.setPassword("password");
-        user.setGender("Male");
-        user.setProfile_picture("profile.jpg");
+        user.setPasswordHash("password");
+        // Note: Gender field doesn't exist in Users entity, removing this line
+        user.setProfilePicture("profile.jpg");
         Date createdOn = new Date();
-        user.setCreated_on(createdOn);
+        user.setCreatedAt(createdOn.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime());
         user.setAdmin(true);
 
-        assertEquals(1, user.getUser_id());
+        assertEquals(1L, user.getUserId());
         assertEquals("testUser", user.getUsername());
-        assertEquals("John", user.getFirst_name());
-        assertEquals("Doe", user.getLast_name());
+        assertEquals("John", user.getFirstName());
+        assertEquals("Doe", user.getLastName());
         assertEquals("test@example.com", user.getEmail());
-        assertEquals("password", user.getPassword());
-        assertEquals("Male", user.getGender());
-        assertEquals("profile.jpg", user.getProfile_picture());
-        assertEquals(createdOn, user.getCreated_on());
-        assertEquals(true, user.isAdmin());
+        assertEquals("password", user.getPasswordHash());
+        // Note: Gender field doesn't exist, removing assertion
+        assertEquals("profile.jpg", user.getProfilePicture());
+        assertEquals(createdOn.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime(), user.getCreatedAt());
+        assertEquals(true, user.getAdmin());
     }
 
     @Test
